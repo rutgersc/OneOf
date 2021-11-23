@@ -1,18 +1,20 @@
+#nullable enable
 using System;
 using static OneOf.Functions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OneOf
 {
     public class OneOfBase<T0, T1, T2, T3, T4, T5, T6, T7> : IOneOf
     {
-        readonly T0 _value0;
-        readonly T1 _value1;
-        readonly T2 _value2;
-        readonly T3 _value3;
-        readonly T4 _value4;
-        readonly T5 _value5;
-        readonly T6 _value6;
-        readonly T7 _value7;
+        readonly T0? _value0;
+        readonly T1? _value1;
+        readonly T2? _value2;
+        readonly T3? _value3;
+        readonly T4? _value4;
+        readonly T5? _value5;
+        readonly T6? _value6;
+        readonly T7? _value7;
         readonly int _index;
 
         protected OneOfBase(OneOf<T0, T1, T2, T3, T4, T5, T6, T7> input)
@@ -35,14 +37,14 @@ namespace OneOf
         public object Value =>
             _index switch
             {
-                0 => _value0,
-                1 => _value1,
-                2 => _value2,
-                3 => _value3,
-                4 => _value4,
-                5 => _value5,
-                6 => _value6,
-                7 => _value7,
+                0 => _value0!,
+                1 => _value1!,
+                2 => _value2!,
+                3 => _value3!,
+                4 => _value4!,
+                5 => _value5!,
+                6 => _value6!,
+                7 => _value7!,
                 _ => throw new InvalidOperationException()
             };
 
@@ -59,35 +61,35 @@ namespace OneOf
 
         public T0 AsT0 =>
             _index == 0 ?
-                _value0 :
+                _value0! :
                 throw new InvalidOperationException($"Cannot return as T0 as result is T{_index}");
         public T1 AsT1 =>
             _index == 1 ?
-                _value1 :
+                _value1! :
                 throw new InvalidOperationException($"Cannot return as T1 as result is T{_index}");
         public T2 AsT2 =>
             _index == 2 ?
-                _value2 :
+                _value2! :
                 throw new InvalidOperationException($"Cannot return as T2 as result is T{_index}");
         public T3 AsT3 =>
             _index == 3 ?
-                _value3 :
+                _value3! :
                 throw new InvalidOperationException($"Cannot return as T3 as result is T{_index}");
         public T4 AsT4 =>
             _index == 4 ?
-                _value4 :
+                _value4! :
                 throw new InvalidOperationException($"Cannot return as T4 as result is T{_index}");
         public T5 AsT5 =>
             _index == 5 ?
-                _value5 :
+                _value5! :
                 throw new InvalidOperationException($"Cannot return as T5 as result is T{_index}");
         public T6 AsT6 =>
             _index == 6 ?
-                _value6 :
+                _value6! :
                 throw new InvalidOperationException($"Cannot return as T6 as result is T{_index}");
         public T7 AsT7 =>
             _index == 7 ?
-                _value7 :
+                _value7! :
                 throw new InvalidOperationException($"Cannot return as T7 as result is T{_index}");
 
         
@@ -96,42 +98,42 @@ namespace OneOf
         {
             if (_index == 0 && f0 != null)
             {
-                f0(_value0);
+                f0(_value0!);
                 return;
             }
             if (_index == 1 && f1 != null)
             {
-                f1(_value1);
+                f1(_value1!);
                 return;
             }
             if (_index == 2 && f2 != null)
             {
-                f2(_value2);
+                f2(_value2!);
                 return;
             }
             if (_index == 3 && f3 != null)
             {
-                f3(_value3);
+                f3(_value3!);
                 return;
             }
             if (_index == 4 && f4 != null)
             {
-                f4(_value4);
+                f4(_value4!);
                 return;
             }
             if (_index == 5 && f5 != null)
             {
-                f5(_value5);
+                f5(_value5!);
                 return;
             }
             if (_index == 6 && f6 != null)
             {
-                f6(_value6);
+                f6(_value6!);
                 return;
             }
             if (_index == 7 && f7 != null)
             {
-                f7(_value7);
+                f7(_value7!);
                 return;
             }
             throw new InvalidOperationException();
@@ -141,35 +143,35 @@ namespace OneOf
         {
             if (_index == 0 && f0 != null)
             {
-                return f0(_value0);
+                return f0(_value0!);
             }
             if (_index == 1 && f1 != null)
             {
-                return f1(_value1);
+                return f1(_value1!);
             }
             if (_index == 2 && f2 != null)
             {
-                return f2(_value2);
+                return f2(_value2!);
             }
             if (_index == 3 && f3 != null)
             {
-                return f3(_value3);
+                return f3(_value3!);
             }
             if (_index == 4 && f4 != null)
             {
-                return f4(_value4);
+                return f4(_value4!);
             }
             if (_index == 5 && f5 != null)
             {
-                return f5(_value5);
+                return f5(_value5!);
             }
             if (_index == 6 && f6 != null)
             {
-                return f6(_value6);
+                return f6(_value6!);
             }
             if (_index == 7 && f7 != null)
             {
-                return f7(_value7);
+                return f7(_value7!);
             }
             throw new InvalidOperationException();
         }
@@ -178,8 +180,8 @@ namespace OneOf
 
         
 
-		public bool TryPickT0(out T0 value, out OneOf<T1, T2, T3, T4, T5, T6, T7> remainder)
-		{
+		public bool TryPickT0([NotNullWhen(true)]out T0? value, [NotNullWhen(false)]out OneOf<T1, T2, T3, T4, T5, T6, T7>? remainder)
+	    {
 			value = IsT0 ? AsT0 : default;
             remainder = _index switch
             {
@@ -196,8 +198,8 @@ namespace OneOf
 			return this.IsT0;
 		}
         
-		public bool TryPickT1(out T1 value, out OneOf<T0, T2, T3, T4, T5, T6, T7> remainder)
-		{
+		public bool TryPickT1([NotNullWhen(true)]out T1? value, [NotNullWhen(false)]out OneOf<T0, T2, T3, T4, T5, T6, T7>? remainder)
+	    {
 			value = IsT1 ? AsT1 : default;
             remainder = _index switch
             {
@@ -214,8 +216,8 @@ namespace OneOf
 			return this.IsT1;
 		}
         
-		public bool TryPickT2(out T2 value, out OneOf<T0, T1, T3, T4, T5, T6, T7> remainder)
-		{
+		public bool TryPickT2([NotNullWhen(true)]out T2? value, [NotNullWhen(false)]out OneOf<T0, T1, T3, T4, T5, T6, T7>? remainder)
+	    {
 			value = IsT2 ? AsT2 : default;
             remainder = _index switch
             {
@@ -232,8 +234,8 @@ namespace OneOf
 			return this.IsT2;
 		}
         
-		public bool TryPickT3(out T3 value, out OneOf<T0, T1, T2, T4, T5, T6, T7> remainder)
-		{
+		public bool TryPickT3([NotNullWhen(true)]out T3? value, [NotNullWhen(false)]out OneOf<T0, T1, T2, T4, T5, T6, T7>? remainder)
+	    {
 			value = IsT3 ? AsT3 : default;
             remainder = _index switch
             {
@@ -250,8 +252,8 @@ namespace OneOf
 			return this.IsT3;
 		}
         
-		public bool TryPickT4(out T4 value, out OneOf<T0, T1, T2, T3, T5, T6, T7> remainder)
-		{
+		public bool TryPickT4([NotNullWhen(true)]out T4? value, [NotNullWhen(false)]out OneOf<T0, T1, T2, T3, T5, T6, T7>? remainder)
+	    {
 			value = IsT4 ? AsT4 : default;
             remainder = _index switch
             {
@@ -268,8 +270,8 @@ namespace OneOf
 			return this.IsT4;
 		}
         
-		public bool TryPickT5(out T5 value, out OneOf<T0, T1, T2, T3, T4, T6, T7> remainder)
-		{
+		public bool TryPickT5([NotNullWhen(true)]out T5? value, [NotNullWhen(false)]out OneOf<T0, T1, T2, T3, T4, T6, T7>? remainder)
+	    {
 			value = IsT5 ? AsT5 : default;
             remainder = _index switch
             {
@@ -286,8 +288,8 @@ namespace OneOf
 			return this.IsT5;
 		}
         
-		public bool TryPickT6(out T6 value, out OneOf<T0, T1, T2, T3, T4, T5, T7> remainder)
-		{
+		public bool TryPickT6([NotNullWhen(true)]out T6? value, [NotNullWhen(false)]out OneOf<T0, T1, T2, T3, T4, T5, T7>? remainder)
+	    {
 			value = IsT6 ? AsT6 : default;
             remainder = _index switch
             {
@@ -304,8 +306,8 @@ namespace OneOf
 			return this.IsT6;
 		}
         
-		public bool TryPickT7(out T7 value, out OneOf<T0, T1, T2, T3, T4, T5, T6> remainder)
-		{
+		public bool TryPickT7([NotNullWhen(true)]out T7? value, [NotNullWhen(false)]out OneOf<T0, T1, T2, T3, T4, T5, T6>? remainder)
+	    {
 			value = IsT7 ? AsT7 : default;
             remainder = _index switch
             {
@@ -337,7 +339,7 @@ namespace OneOf
                 _ => false
             };
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
             {
