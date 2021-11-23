@@ -37,19 +37,21 @@ string GetContent(bool isStruct, int i) {
     var genericArg = genericArgs.Joined(", ");
     var sb = new StringBuilder();
 
-    sb.Append(@$"using System;
+    sb.Append(@$"#nullable enable
+using System;
 using static OneOf.Functions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OneOf
 {{
     public {IfStruct("struct", "class")} {className}<{genericArg}> : IOneOf
     {{
         {RangeJoined(@"
-        ", j => $"readonly T{j} _value{j};")}
+        ", j => $"readonly T{j}? _value{j};")}
         readonly int _index;
 
         {IfStruct( // constructor
-        $@"OneOf(int index, {RangeJoined(", ", j => $"T{j} value{j} = default")})
+        $@"OneOf(int index, {RangeJoined(", ", j => $"T{j}? value{j} = default")})
         {{
             _index = index;
             {RangeJoined(@"
@@ -71,7 +73,7 @@ namespace OneOf
             _index switch
             {{
                 {RangeJoined(@"
-                ", j => $"{j} => _value{j},")}
+                ", j => $"{j} => _value{j}!,")}
                 _ => throw new InvalidOperationException()
             }};
 
@@ -83,7 +85,7 @@ namespace OneOf
         {RangeJoined(@"
         ", j => $@"public T{j} AsT{j} =>
             _index == {j} ?
-                _value{j} :
+                _value{j}! :
                 throw new InvalidOperationException($""Cannot return as T{j} as result is T{{_index}}"");")}
 
         {IfStruct(RangeJoined(@"
@@ -94,7 +96,7 @@ namespace OneOf
             {RangeJoined(@"
             ", j => @$"if (_index == {j} && f{j} != null)
             {{
-                f{j}(_value{j});
+                f{j}(_value{j}!);
                 return;
             }}")}
             throw new InvalidOperationException();
@@ -105,7 +107,7 @@ namespace OneOf
             {RangeJoined(@"
             ", j => $@"if (_index == {j} && f{j} != null)
             {{
-                return f{j}(_value{j});
+                return f{j}(_value{j}!);
             }}")}
             throw new InvalidOperationException();
         }}
@@ -145,8 +147,8 @@ namespace OneOf
                 var genericArgWithSkip = Range(0, i).ExceptSingle(j).Joined(", ", e => $"T{e}");
                 var remainderType = i == 2 ? genericArgWithSkip : $"OneOf<{genericArgWithSkip}>";
                 return $@"
-		public bool TryPickT{j}(out T{j} value, out {remainderType} remainder)
-		{{
+		public bool TryPickT{j}([NotNullWhen(true)]out T{j}? value, [NotNullWhen(false)]out {remainderType}? remainder)
+	    {{
 			value = IsT{j} ? AsT{j} : default;
             remainder = _index switch
             {{
@@ -173,7 +175,7 @@ namespace OneOf
                 _ => false
             }};
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {{
             if (ReferenceEquals(null, obj))
             {{
