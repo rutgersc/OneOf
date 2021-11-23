@@ -1,12 +1,14 @@
+#nullable enable
 using System;
 using static OneOf.Functions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OneOf
 {
     public class OneOfBase<T0, T1> : IOneOf
     {
-        readonly T0 _value0;
-        readonly T1 _value1;
+        readonly T0? _value0;
+        readonly T1? _value1;
         readonly int _index;
 
         protected OneOfBase(OneOf<T0, T1> input)
@@ -23,8 +25,8 @@ namespace OneOf
         public object Value =>
             _index switch
             {
-                0 => _value0,
-                1 => _value1,
+                0 => _value0!,
+                1 => _value1!,
                 _ => throw new InvalidOperationException()
             };
 
@@ -35,11 +37,11 @@ namespace OneOf
 
         public T0 AsT0 =>
             _index == 0 ?
-                _value0 :
+                _value0! :
                 throw new InvalidOperationException($"Cannot return as T0 as result is T{_index}");
         public T1 AsT1 =>
             _index == 1 ?
-                _value1 :
+                _value1! :
                 throw new InvalidOperationException($"Cannot return as T1 as result is T{_index}");
 
         
@@ -48,12 +50,12 @@ namespace OneOf
         {
             if (_index == 0 && f0 != null)
             {
-                f0(_value0);
+                f0(_value0!);
                 return;
             }
             if (_index == 1 && f1 != null)
             {
-                f1(_value1);
+                f1(_value1!);
                 return;
             }
             throw new InvalidOperationException();
@@ -63,11 +65,11 @@ namespace OneOf
         {
             if (_index == 0 && f0 != null)
             {
-                return f0(_value0);
+                return f0(_value0!);
             }
             if (_index == 1 && f1 != null)
             {
-                return f1(_value1);
+                return f1(_value1!);
             }
             throw new InvalidOperationException();
         }
@@ -76,8 +78,8 @@ namespace OneOf
 
         
 
-		public bool TryPickT0(out T0 value, out T1 remainder)
-		{
+		public bool TryPickT0([NotNullWhen(true)]out T0? value, [NotNullWhen(false)]out T1? remainder)
+	    {
 			value = IsT0 ? AsT0 : default;
             remainder = _index switch
             {
@@ -88,8 +90,8 @@ namespace OneOf
 			return this.IsT0;
 		}
         
-		public bool TryPickT1(out T1 value, out T0 remainder)
-		{
+		public bool TryPickT1([NotNullWhen(true)]out T1? value, [NotNullWhen(false)]out T0? remainder)
+	    {
 			value = IsT1 ? AsT1 : default;
             remainder = _index switch
             {
@@ -109,7 +111,7 @@ namespace OneOf
                 _ => false
             };
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
             {
