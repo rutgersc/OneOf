@@ -5,7 +5,7 @@
     <Authors>Harry McIntyre</Authors>
     <Title>OneOf - Easy Discriminated Unions for c#</Title>
     <Company>Harry McIntyre</Company>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>9.0.0</PackageVersion>
     <Product>Harry McIntyre</Product>
     <Description>F# style discriminated unions or C#, using a custom type OneOf&lt;T0, ... Tn&gt; which holds a single value and has a .Match(...) method on it for exhaustive matching. Simple but powerful.</Description>
     <PackageProjectUrl>https://github.com/mcintyre321/OneOf/</PackageProjectUrl>

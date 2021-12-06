@@ -5,7 +5,7 @@
     <Authors>Harry McIntyre, Damian Romanowski</Authors>
     <Title>OneOf - Easy Discriminated Unions for c#</Title>
     <Company>Harry McIntyre</Company>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>9.0.0</PackageVersion>
     <Product>Harry McIntyre</Product>
     <Description>This source generator automaticly implements OneOfBase hierarchies</Description>
     <PackageProjectUrl>https://github.com/mcintyre321/OneOf/</PackageProjectUrl>
